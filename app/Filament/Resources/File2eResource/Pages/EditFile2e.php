@@ -30,6 +30,7 @@ class EditFile2e extends EditRecord
             abort(404);
         }
 
+        $data['text_encrypted'] = $data['text'];
         $data['text'] = File2eService::loadHexToString($data['text']);
 
         return $data;

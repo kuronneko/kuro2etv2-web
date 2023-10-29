@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\File2e;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Services\File2eService;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
@@ -17,7 +19,6 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\File2eResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\File2eResource\RelationManagers;
-use App\Services\File2eService;
 
 class File2eResource extends Resource
 {
@@ -30,7 +31,7 @@ class File2eResource extends Resource
         return $form
             ->schema([
                 Hidden::make('user_id')
-                ->default(Auth::user()->id),
+                    ->default(Auth::user()->id),
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -39,7 +40,15 @@ class File2eResource extends Resource
                     ->rows(7)
                     ->autosize()
                     ->maxLength(65535)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('text_encrypted', File2eService::saveTextToHex($state))),
+                Textarea::make('text_encrypted')
+                    ->disabled()
+                    ->rows(7)
+                    ->autosize()
+                    ->maxLength(65535)
+                    ->columnSpanFull()
             ]);
     }
 
@@ -50,8 +59,9 @@ class File2eResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('text')
-                    ->limit(50),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
@@ -61,10 +71,10 @@ class File2eResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->mutateRecordDataUsing(function (array $data): array {
-                    if(Auth::user()->id != $data['user_id']){
+                    if (Auth::user()->id != $data['user_id']) {
                         abort(404);
                     }
-
+                    $data['text_encrypted'] = $data['text'];
                     $data['text'] = File2eService::loadHexToString($data['text']);
 
                     return $data;
