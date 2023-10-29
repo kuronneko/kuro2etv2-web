@@ -28,14 +28,14 @@ class File2eService
         $secondInputBuffered = ''; // join parts
         $secondHexInputContainer = '';
 
-        $hexInput = File2eService::convertStringToHex($input);
+        $hexInput = self::convertStringToHex($input);
         $halfLength = strlen($hexInput) / 2;
 
         $inputCutFirstPart = substr($hexInput, 0, $halfLength); // cut input
         $inputCutSecondPart = substr($hexInput, $halfLength); // second cut
         $secondInputBuffered = $inputCutSecondPart . $inputCutFirstPart; // Store input with the second part first and the first part second
 
-        $secondHexInputContainer = File2eService::convertStringToHex($secondInputBuffered); // String to hex again and store in hex container
+        $secondHexInputContainer = self::convertStringToHex($secondInputBuffered); // String to hex again and store in hex container
         $secondHexInputContainer = strrev($secondHexInputContainer); // Reverse the text
 
         return $secondHexInputContainer;
@@ -64,7 +64,7 @@ class File2eService
         $inputCutFirstPart = ''; // Store first cut
         $inputCutSecondPart = ''; // Store second cut
         $inputBuffered = strrev($input); // Reverse the input
-        $inputConvertToString = File2eService::convertHexToString($inputBuffered); // Convert hexadecimal input to string
+        $inputConvertToString = self::convertHexToString($inputBuffered); // Convert hexadecimal input to string
 
         // Check the length of the input to determine the cutting points
         $inputLength = strlen($inputConvertToString);
@@ -78,6 +78,6 @@ class File2eService
             $inputCutSecondPart = substr($inputConvertToString, $halfLength - 1); // Second cut
         }
 
-        return File2eService::convertHexToString($inputCutSecondPart . $inputCutFirstPart); // Join inputs and convert from hex to string again
+        return self::convertHexToString($inputCutSecondPart . $inputCutFirstPart); // Join inputs and convert from hex to string again
     }
 }
