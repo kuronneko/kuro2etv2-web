@@ -41,7 +41,7 @@ class File2eResource extends Resource
                 TextInput::make('name')
                     ->label('Filename')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50),
                 Textarea::make('text')
                     ->required()
                     ->rows(3)
@@ -72,6 +72,7 @@ class File2eResource extends Resource
                     ->icon('heroicon-m-lock-closed')
                     ->searchable()
                     ->color('primary')
+                    ->limit(50)
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
