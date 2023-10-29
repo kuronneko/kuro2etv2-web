@@ -11,6 +11,9 @@ class File2eService
         $hexInputContainer = '';
 
         foreach ($charzedInput as $char) {
+            if ($char == "\n") {
+                $hexInputContainer .= ';';
+            }
             $hexInputContainer .= dechex(ord($char)); // Convert the character to its hexadecimal representation
         }
 
