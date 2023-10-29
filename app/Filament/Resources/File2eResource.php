@@ -24,7 +24,13 @@ class File2eResource extends Resource
 {
     protected static ?string $model = File2e::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
+
+    protected static ?string $navigationLabel = 'My Files';
+
+    protected static ?string $breadcrumb = 'My Files';
+
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
@@ -33,6 +39,7 @@ class File2eResource extends Resource
                 Hidden::make('user_id')
                     ->default(Auth::user()->id),
                 TextInput::make('name')
+                    ->label('Filename')
                     ->required()
                     ->maxLength(255),
                 Textarea::make('text')
@@ -57,15 +64,21 @@ class File2eResource extends Resource
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('user_id', Auth::user()->id))
             ->columns([
+                TextColumn::make('id')
+                ->label('ID')
+                ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Filename')
+                    ->icon('heroicon-m-lock-closed')
+                    ->searchable()
+                    ->color('primary'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
