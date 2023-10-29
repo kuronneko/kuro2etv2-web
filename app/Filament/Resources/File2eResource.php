@@ -44,7 +44,7 @@ class File2eResource extends Resource
                     ->maxLength(255),
                 Textarea::make('text')
                     ->required()
-                    ->rows(7)
+                    ->rows(3)
                     ->autosize()
                     ->maxLength(65535)
                     ->columnSpanFull()
@@ -52,7 +52,7 @@ class File2eResource extends Resource
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('text_encrypted', File2eService::saveTextToHex($state))),
                 Textarea::make('text_encrypted')
                     ->disabled()
-                    ->rows(7)
+                    ->rows(3)
                     ->autosize()
                     ->maxLength(65535)
                     ->columnSpanFull()
