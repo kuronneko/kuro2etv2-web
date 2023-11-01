@@ -71,7 +71,7 @@ class File2eResource extends Resource
                     ->label('Filename')
                     ->icon('heroicon-m-lock-closed')
                     ->searchable()
-                    ->color('primary')
+                    ->color('danger')
                     ->limit(50)
                     ->sortable(),
                 TextColumn::make('created_at')
