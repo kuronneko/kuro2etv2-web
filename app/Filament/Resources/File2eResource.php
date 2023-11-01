@@ -116,7 +116,7 @@ class File2eResource extends Resource
         return [
             'index' => Pages\ListFile2es::route('/'),
             'create' => Pages\CreateFile2e::route('/create'),
-            //'view' => Pages\ViewUser::route('/{record}'),
+            //'view' => Pages\ViewFile2e::route('/{record}'),
             'edit' => Pages\EditFile2e::route('/{record}/edit'),
         ];
     }

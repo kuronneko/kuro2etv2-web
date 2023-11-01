@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Resources\File2eResource;
 
-class ViewUser extends ViewRecord
+class ViewFile2e extends ViewRecord
 {
     protected static string $resource = File2eResource::class;
 
