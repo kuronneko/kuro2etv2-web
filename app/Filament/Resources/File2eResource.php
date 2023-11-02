@@ -92,7 +92,9 @@ class File2eResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->mutateRecordDataUsing(function (array $data): array {
+                Tables\Actions\ViewAction::make()
+                ->color('danger')
+                ->mutateRecordDataUsing(function (array $data): array {
                     return File2eActionService::encryptOrDecrypt($data, false);
                 }),
                 Tables\Actions\EditAction::make(),
