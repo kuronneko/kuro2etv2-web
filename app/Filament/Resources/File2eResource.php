@@ -11,8 +11,10 @@ use Filament\Tables\Table;
 use App\Services\File2eService;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use App\Services\File2eActionService;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,15 +67,20 @@ class File2eResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->where('user_id', Auth::user()->id))
             ->columns([
                 TextColumn::make('id')
-                ->label('ID')
-                ->searchable(),
+                    ->label('ID')
+                    ->searchable(),
                 TextColumn::make('name')
                     ->label('Filename')
                     ->icon('heroicon-m-lock-closed')
                     ->searchable()
                     ->color('danger')
                     ->limit(50)
-                    ->sortable(),
+                    ->sortable()
+                    ->action(
+                        ViewAction::make()->mutateRecordDataUsing(function (array $data): array {
+                            return File2eActionService::encryptOrDecrypt($data, false);
+                        }),
+                    ),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -86,13 +93,7 @@ class File2eResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->mutateRecordDataUsing(function (array $data): array {
-                    if (Auth::user()->id != $data['user_id']) {
-                        abort(404);
-                    }
-                    $data['text_encrypted'] = $data['text'];
-                    $data['text'] = File2eService::loadHexToString($data['text']);
-
-                    return $data;
+                    return File2eActionService::encryptOrDecrypt($data, false);
                 }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

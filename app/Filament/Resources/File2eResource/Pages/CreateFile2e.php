@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\File2eResource\Pages;
 
-use App\Filament\Resources\File2eResource;
-use App\Services\File2eService;
 use Filament\Actions;
+use App\Services\File2eService;
+use App\Services\File2eActionService;
+use App\Filament\Resources\File2eResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateFile2e extends CreateRecord
@@ -20,8 +21,6 @@ class CreateFile2e extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['text'] = File2eService::saveTextToHex($data['text']);
-
-        return $data;
+        return File2eActionService::encryptOrDecrypt($data, true);
     }
 }

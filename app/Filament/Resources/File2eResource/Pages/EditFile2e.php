@@ -7,6 +7,7 @@ use App\Services\File2eService;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\File2eResource;
+use App\Services\File2eActionService;
 
 class EditFile2e extends EditRecord
 {
@@ -26,24 +27,11 @@ class EditFile2e extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        if(Auth::user()->id != $data['user_id']){
-            abort(404);
-        }
-
-        $data['text_encrypted'] = $data['text'];
-        $data['text'] = File2eService::loadHexToString($data['text']);
-
-        return $data;
+        return File2eActionService::encryptOrDecrypt($data, false);
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if(Auth::user()->id != $data['user_id']){
-            abort(404);
-        }
-
-        $data['text'] = File2eService::saveTextToHex($data['text']);
-
-        return $data;
+        return File2eActionService::encryptOrDecrypt($data, true);
     }
 }
