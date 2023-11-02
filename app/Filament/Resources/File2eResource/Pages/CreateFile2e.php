@@ -11,7 +11,7 @@ class CreateFile2e extends CreateRecord
 {
     protected static string $resource = File2eResource::class;
 
-    protected static ?string $title = 'File';
+    protected static ?string $title = 'Create File';
 
     protected function getRedirectUrl(): string
     {
