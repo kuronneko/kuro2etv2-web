@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\File2eController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,9 @@ use App\Http\Controllers\AuthController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')
-    ->group(function () {
-        Route::post('login', [AuthController::class, 'standarLogin']);
-/*         Route::post('oauth/token', [AuthController::class, 'externalLogin']);
+        ->group(function () {
+            Route::post('login', [AuthController::class, 'standarLogin']);
+            /*         Route::post('oauth/token', [AuthController::class, 'externalLogin']);
         Route::post('verificar-email', [AuthController::class, 'verifyEmail']);
         Route::put('actualizar', [AuthController::class, 'updateProfile'])->middleware('auth:sanctum');
         Route::put('reset-password', [AuthController::class, 'resetPassword']);
@@ -28,20 +29,21 @@ Route::prefix('v1')->group(function () {
         Route::delete('eliminar', [AuthController::class, 'destroy'])->middleware('auth:sanctum');
         Route::put('ocultar', [AuthController::class, 'hide'])->middleware('auth:sanctum');
         Route::put('desocultar', [AuthController::class, 'makeVisible'])->middleware('auth:sanctum'); */
-    });
+        });
+
     /**
      * Rutas protegidas por Sanctum.
      */
-/*     Route::middleware('auth:sanctum')->group(function () {
-        Route::prefix('tickets')->group(function () {
-            Route::get('{id}', [TicketController::class, 'show']);
-            Route::get('/', [TicketController::class, 'getByUser']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::prefix('file2es')->group(function () {
+            Route::get('get-all-by-user', [File2eController::class, 'getAllByUser']);
+/*             Route::get('/', [TicketController::class, 'getByUser']);
             Route::post('{id}/solicitar', [TicketController::class, 'postSolicitud']);
             Route::post('{ticket}/rechazar', [TicketController::class, 'declineTicket']);
             Route::post('', [TicketController::class, 'store']);
             Route::get('obtener/feed', [TicketController::class, 'getFeed']);
             Route::put('{ticket}/solicitudes/{solicitud}/aceptar', [TicketController::class, 'acceptRequest']);
-            Route::put('{ticket}/solicitudes/{solicitud}/rechazar', [TicketController::class, 'declineRequest']);
+            Route::put('{ticket}/solicitudes/{solicitud}/rechazar', [TicketController::class, 'declineRequest']); */
         });
-    }); */
+    });
 });

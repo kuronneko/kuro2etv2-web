@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResource;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Api\Auth\StandarLoginRequest;
