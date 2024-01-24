@@ -24,7 +24,7 @@ class File2eController extends Controller
 
             return response()->success(
                 data: File2eResource::collection($file2es),
-                developerMessage: 'Register recovery.',
+                developerMessage: 'Recovered record.',
                 userMessage: 'Files obtained successfully.'
             );
         } catch (\Exception $exc) {
@@ -35,24 +35,39 @@ class File2eController extends Controller
         }
     }
 
-    public function getById($id)
+    public function getById(File2e $file2e)
     {
         try {
-            $file2e = File2e::findOrFail($id);
-
             $file2e = request('text') == 'decrypt'
                 ? File2e::make(File2eActionService::encryptOrDecrypt($file2e->toArray(), false))->setAttribute('id', $file2e->id)
                 : $file2e;
 
             return response()->success(
                 data: new File2eResource($file2e),
-                developerMessage: 'Registers recovery.',
+                developerMessage: 'Recovered record.',
                 userMessage: 'Files obtained successfully.'
             );
         } catch (\Exception $exc) {
             return response()->error(
                 developerMessage: $exc->getMessage(),
                 userMessage: 'Problem to obtain the files. Try later.'
+            );
+        }
+    }
+
+    public function editById(File2e $file2e, Request $request)
+    {
+        try {
+            File2eActionService::updateFile2e($file2e, $request);
+
+            return response()->success(
+                developerMessage: 'Updated record.',
+                userMessage: 'File updated successfully.'
+            );
+        } catch (\Exception $exc) {
+            return response()->error(
+                developerMessage: $exc->getMessage(),
+                userMessage: 'Problem to update file. Try later.'
             );
         }
     }

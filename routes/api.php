@@ -37,7 +37,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('file2es')->group(function () {
             Route::get('get-all', [File2eController::class, 'getAll']);
-            Route::get('get-by-id/{id}', [File2eController::class, 'getById']);
+            Route::get('get-by-id/{file2e}', [File2eController::class, 'getById']);
+            Route::put('edit-by-id/{file2e}', [File2eController::class, 'editById']);
 /*             Route::get('/', [TicketController::class, 'getByUser']);
             Route::post('{id}/solicitar', [TicketController::class, 'postSolicitud']);
             Route::post('{ticket}/rechazar', [TicketController::class, 'declineTicket']);
