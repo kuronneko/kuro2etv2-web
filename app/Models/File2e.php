@@ -12,7 +12,7 @@ class File2e extends Model
 
     protected $table = 'file2es';
 
-    protected $fillable = ['user_id', 'name', 'text'];
+    protected $fillable = ['user_id', 'name', 'text', 'created_at', 'updated_at'];
 
     public function user()
     {

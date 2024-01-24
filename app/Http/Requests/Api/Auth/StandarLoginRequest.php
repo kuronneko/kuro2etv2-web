@@ -40,7 +40,7 @@ class StandarLoginRequest extends FormRequest
                     'errors' => $validator->errors(),
                 ],
                 developerMessage: 'Errores de validación.',
-                userMessage: 'Hay un problema con los datos que ingresaste. Verifica tu email y contraseña.',
+                userMessage: 'Problem with the parameters. Verify your email and password.',
                 httpCode: 422
             )
         );

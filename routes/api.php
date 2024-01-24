@@ -36,12 +36,13 @@ Route::prefix('v1')->group(function () {
      */
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('file2es')->group(function () {
-            Route::get('get-all-by-user', [File2eController::class, 'getAllByUser']);
+            Route::get('get-all', [File2eController::class, 'getAll']);
+            Route::get('get-by-id/{id}', [File2eController::class, 'getById']);
 /*             Route::get('/', [TicketController::class, 'getByUser']);
             Route::post('{id}/solicitar', [TicketController::class, 'postSolicitud']);
             Route::post('{ticket}/rechazar', [TicketController::class, 'declineTicket']);
             Route::post('', [TicketController::class, 'store']);
-            Route::get('obtener/feed', [TicketController::class, 'getFeed']);
+            Route::get('obtener/feed', s[TicketController::class, 'getFeed']);
             Route::put('{ticket}/solicitudes/{solicitud}/aceptar', [TicketController::class, 'acceptRequest']);
             Route::put('{ticket}/solicitudes/{solicitud}/rechazar', [TicketController::class, 'declineRequest']); */
         });

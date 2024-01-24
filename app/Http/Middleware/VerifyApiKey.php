@@ -17,7 +17,7 @@ class VerifyApiKey
     {
         if ( !$request->hasHeader('x-api-key') || $request->header('x-api-key') != config('app.api_key') ) {
             return response()->fail(
-                developerMessage: 'No autorizado. Api key inválida.',
+                developerMessage: 'No Authorized. Invalid Api key.',
                 userMessage: ''
             );
         }
