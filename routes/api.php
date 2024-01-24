@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
             Route::get('get/{file2e}', [File2eController::class, 'get']);
             Route::put('edit/{file2e}', [File2eController::class, 'edit']);
             Route::delete('delete/{file2e}', [File2eController::class, 'delete']);
+            Route::post('create', [File2eController::class, 'create']);
 /*             Route::get('/', [TicketController::class, 'getByUser']);
             Route::post('{id}/solicitar', [TicketController::class, 'postSolicitud']);
             Route::post('{ticket}/rechazar', [TicketController::class, 'declineTicket']);

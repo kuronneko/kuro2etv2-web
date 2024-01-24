@@ -31,12 +31,19 @@ class File2eActionService
             abort(404);
         } else {
 
-            $updatedArray = array_merge($file2e->toArray(), ['text' => $request->text]);
-
             $file2e->update([
                 'name' => $request->name,
-                'text' => File2e::make(self::encryptOrDecrypt($updatedArray, true))->setAttribute('id', $file2e->id)->text
+                'text' => File2eService::saveTextToHex($request->text),
             ]);
         }
+    }
+
+    public static function storeFile2e($request)
+    {
+        File2e::create([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'text' => File2eService::saveTextToHex($request->text),
+        ]);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\File2eResource;
 use App\Models\File2e;
-use App\Services\File2eActionService;
-use App\Services\File2eService;
 use Illuminate\Http\Request;
+use App\Services\File2eService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Services\File2eActionService;
+use App\Http\Resources\File2eResource;
 
 class File2eController extends Controller
 {
@@ -85,6 +86,23 @@ class File2eController extends Controller
             return response()->error(
                 developerMessage: $exc->getMessage(),
                 userMessage: 'Problem to delete file. Try later.'
+            );
+        }
+    }
+
+    public function create(Request $request)
+    {
+        try {
+            File2eActionService::storeFile2e($request);
+
+            return response()->success(
+                developerMessage: 'created record.',
+                userMessage: 'File created successfully.'
+            );
+        } catch (\Exception $exc) {
+            return response()->error(
+                developerMessage: $exc->getMessage(),
+                userMessage: 'Problem to create file. Try later.'
             );
         }
     }
