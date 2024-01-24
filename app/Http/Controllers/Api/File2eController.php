@@ -35,7 +35,7 @@ class File2eController extends Controller
         }
     }
 
-    public function getById(File2e $file2e)
+    public function get(File2e $file2e)
     {
         try {
             $file2e = request('text') == 'decrypt'
@@ -55,7 +55,7 @@ class File2eController extends Controller
         }
     }
 
-    public function editById(File2e $file2e, Request $request)
+    public function edit(File2e $file2e, Request $request)
     {
         try {
             File2eActionService::updateFile2e($file2e, $request);
@@ -68,6 +68,23 @@ class File2eController extends Controller
             return response()->error(
                 developerMessage: $exc->getMessage(),
                 userMessage: 'Problem to update file. Try later.'
+            );
+        }
+    }
+
+    public function delete(File2e $file2e)
+    {
+        try {
+            $file2e->delete();
+
+            return response()->success(
+                developerMessage: 'Deleted record.',
+                userMessage: 'File deleted successfully.'
+            );
+        } catch (\Exception $exc) {
+            return response()->error(
+                developerMessage: $exc->getMessage(),
+                userMessage: 'Problem to delete file. Try later.'
             );
         }
     }
