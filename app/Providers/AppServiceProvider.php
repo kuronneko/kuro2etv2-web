@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'warning' => Color::Amber,
         ]); */
 
-        Response::macro('success', function ($data = null, $developerMessage = null, $userMessage = null, $httpCode = 200) {
+        Response::macro('success', function ($data = null, $developerMessage = "", $userMessage = "", $httpCode = 200) {
             return response()->json([
                 'status' => 'success',
                 'data' => $data,
@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             ], $httpCode);
         });
 
-        Response::macro('fail', function ($data = null, $developerMessage = null, $userMessage = null, $httpCode = 400) {
+        Response::macro('fail', function ($data = null, $developerMessage = "", $userMessage = "", $httpCode = 400) {
             return response()->json([
                 'status' => 'fail',
                 'data' => $data,
@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             ], $httpCode);
         });
 
-        Response::macro('error', function ($data = null, $developerMessage = null, $userMessage = null, $httpCode = 500) {
+        Response::macro('error', function ($data = null, $developerMessage = "", $userMessage = "", $httpCode = 500) {
             return response()->json([
                 'status' => 'error',
                 'data' => $data,
