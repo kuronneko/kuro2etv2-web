@@ -22,7 +22,7 @@ class AuthController extends Controller
                     'usuario' => new LoginResource($usuario),
                 ],
                 developerMessage: 'Login OK',
-                userMessage: '¡Bienvenido a Meeter!',
+                userMessage: '¡Bienvenido!',
             );
         } catch (ValidationException $exc) {
             return response()->fail(
