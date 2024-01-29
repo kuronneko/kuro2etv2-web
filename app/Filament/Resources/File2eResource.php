@@ -28,9 +28,9 @@ class File2eResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
-    protected static ?string $navigationLabel = 'My Files';
+    protected static ?string $navigationLabel = 'My encrypted files';
 
-    protected static ?string $breadcrumb = 'My Files';
+    protected static ?string $breadcrumb = 'My encrypted files';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -65,6 +65,7 @@ class File2eResource extends Resource
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('user_id', Auth::user()->id))
+            ->defaultPaginationPageOption(50)
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
@@ -92,13 +93,13 @@ class File2eResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                ->color('danger')
+                Tables\Actions\ViewAction::make()->label('')
                 ->mutateRecordDataUsing(function (array $data): array {
                     return File2eActionService::encryptOrDecrypt($data, false);
                 }),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->label('')->color('gray')
+                ,
+                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
 /*                 Tables\Actions\BulkActionGroup::make([
