@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->fail(
                 developerMessage: 'No autenticado.',
-                userMessage: 'Debes iniciar sesión en Meeter para continuar.',
+                userMessage: 'You need to login to continue.',
                 httpCode: 401
             );
         }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\File2e;
 use Illuminate\Http\Request;
-use App\Services\File2eService;
+use App\Services\KuroEncrypterTool;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\File2eActionService;

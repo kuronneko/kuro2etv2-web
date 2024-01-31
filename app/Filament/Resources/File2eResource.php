@@ -8,7 +8,7 @@ use App\Models\File2e;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Services\File2eService;
+use App\Services\KuroEncrypterTool;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use App\Services\File2eActionService;
@@ -51,7 +51,7 @@ class File2eResource extends Resource
                     ->maxLength(65535)
                     ->columnSpanFull()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('text_encrypted', File2eService::saveTextToHex($state))),
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('text_encrypted', KuroEncrypterTool::saveTextToHex($state))),
                 Textarea::make('text_encrypted')
                     ->disabled()
                     ->rows(3)

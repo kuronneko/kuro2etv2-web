@@ -14,12 +14,12 @@ class File2eActionService
         } else {
             if ($boolean) {
 
-                $data['text'] = File2eService::saveTextToHex($data['text']);
+                $data['text'] = KuroEncrypterTool::saveTextToHex($data['text']);
                 return $data;
             } else if (!$boolean) {
 
                 $data['text_encrypted'] = $data['text'];
-                $data['text'] = File2eService::loadHexToString($data['text']);
+                $data['text'] = KuroEncrypterTool::loadHexToString($data['text']);
                 return $data;
             }
         }
@@ -33,7 +33,7 @@ class File2eActionService
 
             $file2e->update([
                 'name' => $request->name,
-                'text' => File2eService::saveTextToHex($request->text),
+                'text' => KuroEncrypterTool::saveTextToHex($request->text),
             ]);
         }
     }
@@ -43,7 +43,7 @@ class File2eActionService
         File2e::create([
             'user_id' => Auth::user()->id,
             'name' => $request->name,
-            'text' => File2eService::saveTextToHex($request->text),
+            'text' => KuroEncrypterTool::saveTextToHex($request->text),
         ]);
     }
 }

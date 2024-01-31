@@ -27,13 +27,13 @@ class AuthController extends Controller
         } catch (ValidationException $exc) {
             return response()->fail(
                 developerMessage: $exc->getMessage(),
-                userMessage: 'Parece que los datos que ingresaste son incorrectos. Verifica tu usuario y contraseña e inténtalo de nuevo.',
+                userMessage: 'Verify you email and password, and try again.',
                 httpCode: 401
             );
         } catch (\Exception $exc) {
             return response()->error(
                 developerMessage: $exc->getMessage(),
-                userMessage: 'Hubo un problema durante el inicio de sesión. Inténtalo más tarde.'
+                userMessage: 'Verify you email and password, and try again.'
             );
         }
     }

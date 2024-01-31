@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class File2eService
+class KuroEncrypterTool
 {
 
     static function convertStringToHex($text)
