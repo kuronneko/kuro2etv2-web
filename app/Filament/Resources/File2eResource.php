@@ -5,14 +5,17 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\File2e;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
+use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Services\KuroEncrypterTool;
 use Filament\Resources\Resource;
+use App\Services\KuroEncrypterTool;
 use Illuminate\Support\Facades\Auth;
 use App\Services\File2eActionService;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -26,13 +29,15 @@ class File2eResource extends Resource
 {
     protected static ?string $model = File2e::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
+    protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
     protected static ?string $navigationLabel = 'My encrypted files';
 
     protected static ?string $breadcrumb = 'My encrypted files';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -44,6 +49,12 @@ class File2eResource extends Resource
                     ->label('Filename')
                     ->required()
                     ->maxLength(50),
+                Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->required()
+                    ->native(false)
+                    ->columnSpan(['default' => 2, 'md' => 1])
+                    ->label('Category'),
                 Textarea::make('text')
                     ->required()
                     ->rows(3)
@@ -82,6 +93,13 @@ class File2eResource extends Resource
                             return File2eActionService::encryptOrDecrypt($data, false);
                         }),
                     ),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->color('gray')
+                    ->searchable(),
+                TextColumn::make('text')
+                    ->limit(40)
+                    ->label('Encrypted text'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -94,18 +112,16 @@ class File2eResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('')
-                ->mutateRecordDataUsing(function (array $data): array {
-                    return File2eActionService::encryptOrDecrypt($data, false);
-                }),
-                Tables\Actions\EditAction::make()->label('')->color('gray')
-                ,
+                    ->mutateRecordDataUsing(function (array $data): array {
+                        return File2eActionService::encryptOrDecrypt($data, false);
+                    }),
+                Tables\Actions\EditAction::make()->label('')->color('gray'),
                 Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
-/*                 Tables\Actions\BulkActionGroup::make([
+                /*                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]), */
-            ]);
+                ]), */]);
     }
 
     public static function getRelations(): array

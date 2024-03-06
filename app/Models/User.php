@@ -49,4 +49,9 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function file2es()
+    {
+        return $this->hasMany(File2e::class);
+    }
 }
