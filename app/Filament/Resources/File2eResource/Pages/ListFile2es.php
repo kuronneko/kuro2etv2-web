@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\File2eResource\Pages;
 
-use App\Filament\Resources\File2eResource;
-use App\Models\Category;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\File2eResource;
+use App\Models\File2e;
 
 class ListFile2es extends ListRecords
 {
@@ -24,9 +26,11 @@ class ListFile2es extends ListRecords
 
     public function getTabs(): array
     {
-        $tabs = ['all' => Tab::make('All')->badge($this->getModel()::count())];
+       // $tabs = ['all' => Tab::make('All')->badge($this->getModel()::count())];
 
-        $categories = Category::orderBy('id', 'asc')
+       $tabs = ['all' => Tab::make('All')->badge(File2e::where('user_id', Auth::user()->id)->count())];
+
+        $categories = Category::orderBy('id', 'asc')->where('user_id', Auth::user()->id)
             ->withCount('file2es')
             ->get();
 

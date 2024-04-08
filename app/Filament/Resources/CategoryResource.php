@@ -8,7 +8,9 @@ use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use App\Services\AsociacionesService;
+use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,6 +30,7 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
+                Hidden::make('user_id'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -37,6 +40,7 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Category::where('user_id', Auth::user()->id)->orWhereNull('user_id'))
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')

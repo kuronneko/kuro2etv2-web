@@ -50,7 +50,7 @@ class File2eResource extends Resource
                     ->required()
                     ->maxLength(50),
                 Select::make('category_id')
-                    ->relationship('category', 'name')
+                    ->relationship('category', 'name', modifyQueryUsing: fn (Builder $query) => $query->where('user_id', Auth::user()->id))
                     ->required()
                     ->native(false)
                     ->columnSpan(['default' => 2, 'md' => 1])

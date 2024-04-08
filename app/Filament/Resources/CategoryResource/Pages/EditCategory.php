@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\CategoryResource\Pages;
 
-use App\Filament\Resources\CategoryResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\CategoryResource;
 
 class EditCategory extends EditRecord
 {
@@ -21,4 +22,12 @@ class EditCategory extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['user_id'] = Auth::user()->id;
+
+        return $data;
+    }
+
 }

@@ -11,10 +11,15 @@ class Category extends Model
 
     protected $table = 'categories';
 
-    protected $fillable = ['name', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'user_id', 'created_at', 'updated_at'];
 
     public function file2es()
     {
         return $this->hasMany(File2e::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
