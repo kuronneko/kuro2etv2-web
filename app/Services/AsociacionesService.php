@@ -8,6 +8,6 @@ class AsociacionesService
 {
     public static function tieneRelacionAsociada($parent, $relationship)
     {
-        return $parent->{$relationship}()->exists();
+        return $parent->{$relationship}()->withTrashed()->exists();
     }
 }
