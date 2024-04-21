@@ -9,6 +9,8 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\File2eResource;
 use App\Models\File2e;
+use pxlrbt\FilamentExcel\Actions\Pages\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class ListFile2es extends ListRecords
 {
@@ -21,6 +23,9 @@ class ListFile2es extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->label('New File'),
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')->fromTable()->withFilename("File2es-".date('Y-m-d')),
+                ])
         ];
     }
 
