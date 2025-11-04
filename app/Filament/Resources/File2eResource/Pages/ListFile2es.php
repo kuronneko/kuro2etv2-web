@@ -40,7 +40,7 @@ class ListFile2es extends ListRecords
                                 try {
                                     $hex = Crypt::decryptString($state);
                                 } catch (DecryptException $e) {
-                                    $hex = $state;
+                                    $hex = $state; // legacy format to export to the spreadsheet
                                 }
                                 return is_string($hex) ? $hex : (string) $hex;
                             }),
