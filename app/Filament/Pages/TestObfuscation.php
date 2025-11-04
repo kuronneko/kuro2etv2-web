@@ -13,6 +13,9 @@ class TestObfuscation extends Page
 
     protected static string $view = 'filament.pages.test-obfuscation';
 
+    //position 2 in the panel
+    protected static ?int $navigationSort = 2;
+
     // Livewire properties bound to the view
     public ?string $input = null;
 
