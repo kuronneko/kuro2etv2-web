@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\File2eActionService;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Crypt;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -23,6 +24,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\File2eResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Contracts\Encryption\DecryptException;
 use App\Filament\Resources\File2eResource\RelationManagers;
 
 class File2eResource extends Resource
@@ -62,8 +64,9 @@ class File2eResource extends Resource
                     ->maxLength(65535)
                     ->columnSpanFull()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('text_encrypted', KuroEncrypterTool::saveTextToHex($state))),
-                Textarea::make('text_encrypted')
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('obfuscated_text', KuroEncrypterTool::saveTextToHex($state))),
+                Textarea::make('obfuscated_text')
+                    ->label('Obfuscated text (legacy hex format)')
                     ->disabled()
                     ->rows(3)
                     ->autosize()
@@ -98,8 +101,26 @@ class File2eResource extends Resource
                     ->color('gray')
                     ->searchable(),
                 TextColumn::make('text')
+                    ->label('Obfuscated text')
                     ->limit(40)
-                    ->label('Encrypted text'),
+                    ->formatStateUsing(function ($state, $record) {
+                        // $state es lo que está en la BD (puede ser legacy hex o Crypt-wrapped)
+                        try {
+                            // Intentar primero Laravel Crypt (nuevo formato)
+                            $hex = Crypt::decryptString($state);
+
+                            return $hex;
+                        } catch (DecryptException $e) {
+                            // Fallback: asumir formato legacy (hex que Kuro puede decodificar)
+                            try {
+                                return KuroEncrypterTool::loadHexToString($state);
+                            } catch (\Throwable $ex) {
+                                return '—';
+                            }
+                        } catch (\Throwable $e) {
+                            return '—';
+                        }
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
