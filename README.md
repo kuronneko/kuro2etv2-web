@@ -35,6 +35,16 @@ This README documents installation, running, the API endpoints, and notes about 
 
 ---
 
+## Requirements
+
+-   PHP 8.2+
+-   Composer (for PHP dependencies)
+-   Node.js + npm (or yarn) for frontend assets (Vite) — optional (only required if you need to build or modify frontend assets)
+-   A database (MySQL, PostgreSQL, or SQLite for quick local testing)
+-   Optional: Docker & docker-compose (a `docker-compose.yml` exists in the repo)
+
+---
+
 ## ⚙️ Quick setup (local)
 
 Prereqs: PHP (>= 8.x depending on Laravel version), Composer, Node (npm), a database (MySQL, Postgres, Sqlite), and optionally Docker.
